@@ -96,7 +96,7 @@ class Seasons {
    */
   next() {
     const result = this.season[this.currentSeason];
-    this.currentSeason = (++this.currentSeason) % 4;
+    this.currentSeason = ++this.currentSeason % 4;
     return result;
   }
 }
@@ -110,7 +110,10 @@ class Car {
    */
   constructor(name, tankSize, mpg) {
     this.odometer = 0; // car initilizes with zero miles
-    this.tank = tankSize; // car initiazes full of gas
+    this.tank = tankSize;
+    this.tankSize = tankSize;
+    this.mpg = mpg;
+    // car initiazes full of gas
     // ✨ initialize whatever other properties are needed
   }
 
@@ -128,7 +131,15 @@ class Car {
    * focus.drive(200) // returns 600 (ran out of gas after 100 miles)
    */
   drive(distance) {
-    // ✨ implement
+    const milesCanDrive = this.mpg * this.tank;
+    if (distance <= milesCanDrive) {
+      this.odometer = this.odometer + distance;
+      this.tank = this.tank - distance / this.mpg;
+    } else {
+      this.odometer = this.odometer + 600;
+      this.tank = 0;
+    }
+    return this.odometer;
   }
 
   /**
@@ -143,7 +154,13 @@ class Car {
    * focus.refuel(99) // returns 600 (tank only holds 20)
    */
   refuel(gallons) {
-    // ✨ implement
+    const gallonsThatFit = this.tankSize - this.tank;
+    if (gallons <= gallonsThatFit) {
+      this.tank = this.tank + gallons;
+    } else {
+      this.tank = this.tankSize;
+    }
+    return this.tank * this.mpg;
   }
 }
 
